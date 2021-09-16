@@ -7,9 +7,14 @@
     "wp:config:recreate": "composer run wp:config:delete && composer run wp:config:create",
     "wp:core:download": "wp core download --path=wordpress",
     "wp:core:install": "root_domain=$(basename `pwd`).test && wp core install --url=https://${root_domain} --title=Test --admin_user=admin --admin_email=admin@${root_domain} --admin_password=password --skip-email",
+    "wp:login:install": "wp package install aaemnnosttv/wp-cli-login-command && wp login install --activate --yes",
+    "wp:login:uninstall": "wp package uninstall aaemnnosttv/wp-cli-login-command",
+    "site:link": "domain=$(basename `pwd`) && cd wordpress && valet unlink $domain && valet link $domain && valet secure",
     "site:open": "root_domain=$(basename `pwd`).test && xdg-open https://${root_domain}",
     "site:visit": "composer run site:open",
     "site:go": "composer run site:open",
-    "site:link": "domain=$(basename `pwd`) && cd wordpress && valet unlink $domain && valet link $domain && valet secure"
+    "site:dashboard": "wp login as admin --launch",
+    "site:admin": "wp login as admin --launch",
+    "site:login": "wp login as admin --launch"
   }
 }
