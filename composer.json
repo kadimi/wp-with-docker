@@ -1,7 +1,7 @@
 {
   "scripts": {
     "db:port": "@php setup.php db-port",
-    "db:start": "mkdir -p data && mkdir -p data/mysql && port=`cat db-port` && domain=$(basename `pwd`) && docker run -d --mount src=$(pwd)/data/mysql,target=/var/lib/mysql,type=bind --name $domain-db -p $port:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wp mysql",
+    "db:start": "install -d data/mysql && port=`cat db-port` && domain=$(basename `pwd`) && docker run -d --rm --mount src=$(pwd)/data/mysql,target=/var/lib/mysql,type=bind --name $domain-db -p $port:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wp mysql",
     "wp:config:delete": "rm wordpress/wp-config.php",
     "wp:config:create": "port=`cat db-port` && wp config create --dbname=wp --dbuser=root --dbhost=0.0.0.0:$port --dbpass=root",
     "wp:config:recreate": "composer run wp:config:delete && composer run wp:config:create",
@@ -10,11 +10,11 @@
     "wp:login:install": "wp package install aaemnnosttv/wp-cli-login-command && wp login install --activate --yes",
     "wp:login:uninstall": "wp package uninstall aaemnnosttv/wp-cli-login-command",
     "site:link": "domain=$(basename `pwd`) && cd wordpress && valet unlink $domain && valet link $domain && valet secure",
-    "site:open": "root_domain=$(basename `pwd`).test && xdg-open https://${root_domain}",
-    "site:visit": "composer run site:open",
-    "site:go": "composer run site:open",
-    "site:dashboard": "wp login as admin --launch",
+    "site:go": "root_domain=$(basename `pwd`).test && xdg-open https://${root_domain}",
+    "site:open": "composer run site:go",
+    "site:visit": "composer run site:go",
     "site:admin": "wp login as admin --launch",
-    "site:login": "wp login as admin --launch"
+    "site:dashboard": "composer run site:admin",
+    "site:login": "composer run site:admin"
   }
 }
