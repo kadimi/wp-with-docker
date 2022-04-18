@@ -1,13 +1,14 @@
 {
   "scripts": {
-    "setup": "composer run db:port && composer run db:start && sleep 5 && composer run wp:core:download && composer run wp:config:create && composer run wp:core:install && composer run wp:login:install && composer run site:link",
+    "setup": "composer run db:port && composer run db:start && sleep 20 && composer run wp:core:download && composer run wp:config:create && composer run wp:core:install && composer run wp:login:install && composer run site:link",
     "db:port": "@php setup.php db-port",
-    "db:start": "install -d data/mysql && port=`cat db-port` && domain=$(basename `pwd`) && docker run -d --rm --mount src=$(pwd)/data/mysql,target=/var/lib/mysql,type=bind --name $domain-db -p $port:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wp mysql",
+    "db:start": "install -d data/mysql && port=`cat db-port` && domain=$(basename `pwd`) && docker run -d --rm --mount src=$(pwd)/data/mysql,target=/var/lib/mysql,type=bind --name $domain-db -p $port:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wordpress mysql",
+    "db:tests": "domain=$(basename `pwd`) && docker exec $domain-db mysql -u root -proot -e 'DROP SCHEMA IF EXISTS tests; CREATE SCHEMA tests;'",
     "db:stop": "domain=$(basename `pwd`) && docker stop $domain-db",
     "db:adminer": "port=$((`cat db-port`+1)) && domain=$(basename `pwd`) && docker run -d --link $domain-db:db -p $port:8080 adminer",
     "db:manage": "port=$((`cat db-port`+1)) && xdg-open http://0.0.0.0:$port",
     "wp:config:delete": "rm wordpress/wp-config.php",
-    "wp:config:create": "port=`cat db-port` && wp config create --dbname=wp --dbuser=root --dbhost=0.0.0.0:$port --dbpass=root",
+    "wp:config:create": "port=`cat db-port` && wp config create --dbname=wordpress --dbuser=root --dbhost=0.0.0.0:$port --dbpass=root",
     "wp:config:recreate": "composer run wp:config:delete && composer run wp:config:create",
     "wp:core:download": "wp core download --path=wordpress",
     "wp:core:install": "root_domain=$(basename `pwd`).test && wp core install --url=https://${root_domain} --title=Test --admin_user=admin --admin_email=admin@${root_domain} --admin_password=password --skip-email",
