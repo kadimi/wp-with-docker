@@ -2,7 +2,7 @@
 
 WWD_HOME="$HOME/sites"
 wwd-verify-name() {
-	site=${1:?Missing argument}
+	site=${1:?Missing name}
 	if [[ ! $site =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
 		return 1
 	fi
@@ -84,4 +84,13 @@ wwd-delete() {
 wwd-list() {
 	mkdir -p "$WWD_HOME"
 	du -h --max-depth=1 -L "$WWD_HOME" | sort -h | grep -v "$WWD_HOME"$
+}
+wwd-ide() {
+	wwd-verify-exists $1
+	if [ ! $? -eq 0 ];then
+		echo "Site \"$1\" doesn't exist."
+		return 1
+	fi
+	ide=${2:?Missing IDE command}
+	$ide $WWD_HOME/$1
 }
