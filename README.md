@@ -1,3 +1,3 @@
-# WP width Docker
+# WP with Docker
 
 ## New project - Documentation in progress
