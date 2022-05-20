@@ -1,5 +1,5 @@
 composer.lock
 db-port
-data/
+db-data/
 wordpress/
 vendor/
