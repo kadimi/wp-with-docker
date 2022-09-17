@@ -85,12 +85,12 @@ wwd-list() {
 	mkdir -p "$WWD_HOME"
 	du -h --max-depth=1 -L "$WWD_HOME" | sort -h | grep -v "$WWD_HOME"$
 }
-wwd-ide() {
+wwd-cmd() {
 	wwd-verify-exists $1
 	if [ ! $? -eq 0 ];then
 		echo "Site \"$1\" doesn't exist."
 		return 1
 	fi
-	ide=${2:?Missing IDE command}
-	$ide $WWD_HOME/$1
+	cmd=${2:?Missing command}
+	$cmd $WWD_HOME/$1
 }
