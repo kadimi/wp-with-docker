@@ -17,7 +17,7 @@ do {
             echo "\n" . 'Database not responding';
             exit(1);
         }
-        echo '-';
+        echo '.';
         sleep(1);
     }
 } while (true);
