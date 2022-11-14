@@ -17,7 +17,7 @@ wwd-verify-exists() {
 	fi
 }
 wwd-start() {
-	seconds=2
+	seconds=5
 	wwd-verify-exists $1
 	if [ ! $? -eq 0 ];then
 		echo "Container \"$1-db\" doesn't exist."
