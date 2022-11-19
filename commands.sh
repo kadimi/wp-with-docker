@@ -17,7 +17,6 @@ wwd-verify-exists() {
 	fi
 }
 wwd-start() {
-	seconds=5
 	wwd-verify-exists $1
 	if [ ! $? -eq 0 ];then
 		echo "Container \"$1-db\" doesn't exist."
@@ -30,8 +29,7 @@ wwd-start() {
 		echo "Container \"$1-db\" couldn't start."
 		return 1
 	fi
-	echo "Waiting ${seconds}s before visiting https://$1.test."
-	sleep $seconds
+	composer run -q -d $WWD_HOME/$1 db:wait
 	composer run -q -d $WWD_HOME/$1 site:visit
 }
 wwd-stop() {
